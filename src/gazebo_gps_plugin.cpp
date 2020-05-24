@@ -51,7 +51,7 @@ bool GpsPlugin::checkWorldHomePosition(physics::WorldPtr world) {
   world_latitude_ = spherical_coords->LatitudeReference().Degree() * M_PI / 180.0;
   world_longitude_ = spherical_coords->LongitudeReference().Degree() * M_PI / 180.0;
   world_altitude_ = spherical_coords->GetElevationReference();
-  // This logic is required given that the spherical coordinates reference call 
+  // This logic is required given that the spherical coordinates reference call
   // return 0 if the spherical coordnates are not defined in the world file
   return (world_latitude_ && world_longitude_ && world_altitude_) ? true : false;
 }
@@ -86,34 +86,37 @@ void GpsPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
   if (env_lat) {
     lat_home = std::stod(env_lat) * M_PI / 180.0;
+    gzmsg << "Home latitude is set to " << lat_home << ".\n";
   } else if (world_has_origin) {
     lat_home = world_latitude_;
+    gzmsg << "Home latitude is set to " << lat_home << ".\n";
   } else if(_sdf->HasElement("homeLatitude")) {
     double latitude;
     getSdfParam<double>(_sdf, "homeLatitude", latitude, 47.397742);
     lat_home = latitude * M_PI / 180.0;
   }
-  gzmsg << "Home latitude is set to " << lat_home << ".\n";
 
   if (env_lon) {
     lon_home = std::stod(env_lon) * M_PI / 180.0;
+    gzmsg << "Home longitude is set to " << lon_home << ".\n";
   } else if (world_has_origin) {
     lon_home = world_longitude_;
+    gzmsg << "Home longitude is set to " << lon_home << ".\n";
   } else if(_sdf->HasElement("homeLongitude")) {
     double longitude;
     getSdfParam<double>(_sdf, "homeLongitude", longitude, 8.545594);
     lon_home = longitude * M_PI / 180.0;
   }
-  gzmsg << "Home longitude is set to " << lon_home << ".\n";
 
   if (env_alt) {
     alt_home = std::stod(env_alt);
+    gzmsg << "Home altitude is set to " << alt_home << ".\n";
   } else if (world_has_origin) {
     alt_home = world_altitude_;
+    gzmsg << "Home altitude is set to " << alt_home << ".\n";
   } else if(_sdf->HasElement("homeAltitude")) {
     getSdfParam<double>(_sdf, "homeAltitude", alt_home, alt_home);
   }
-  gzmsg << "Home altitude is set to " << alt_home << ".\n";
 
   namespace_.clear();
   if (_sdf->HasElement("robotNamespace")) {

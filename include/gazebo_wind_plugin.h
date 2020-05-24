@@ -38,12 +38,12 @@ static const std::string kDefaultNamespace = "";
 static const std::string kDefaultFrameId = "world";
 static const std::string kDefaultLinkName = "base_link";
 
-static constexpr double kDefaultWindForceMean = 0.0;
-static constexpr double kDefaultWindForceMax = 100.0;
-static constexpr double kDefaultWindForceVariance = 0.0;
-static constexpr double kDefaultWindGustForceMean = 0.0;
-static constexpr double kDefaultWindGustForceMax = 100.0;
-static constexpr double kDefaultWindGustForceVariance = 0.0;
+static constexpr double kDefaultWindVelocityMean = 0.0;
+static constexpr double kDefaultWindVelocityMax = 100.0;
+static constexpr double kDefaultWindVelocityVariance = 0.0;
+static constexpr double kDefaultWindGustVelocityMean = 0.0;
+static constexpr double kDefaultWindGustVelocityMax = 10.0;
+static constexpr double kDefaultWindGustVelocityVariance = 0.0;
 
 static constexpr double kDefaultWindGustStart = 10.0;
 static constexpr double kDefaultWindGustDuration = 0.0;
@@ -60,12 +60,12 @@ class GazeboWindPlugin : public ModelPlugin {
       : ModelPlugin(),
         namespace_(kDefaultNamespace),
         wind_pub_topic_("wind"),
-        wind_force_mean_(kDefaultWindForceMean),
-        wind_force_max_(kDefaultWindForceMax),
-        wind_force_variance_(kDefaultWindForceVariance),
-        wind_gust_force_mean_(kDefaultWindGustForceMean),
-        wind_gust_force_max_(kDefaultWindGustForceMax),
-        wind_gust_force_variance_(kDefaultWindGustForceVariance),
+        wind_velocity_mean_(kDefaultWindVelocityMean),
+        wind_velocity_max_(kDefaultWindVelocityMax),
+        wind_velocity_variance_(kDefaultWindVelocityVariance),
+        wind_gust_velocity_mean_(kDefaultWindGustVelocityMean),
+        wind_gust_velocity_max_(kDefaultWindGustVelocityMax),
+        wind_gust_velocity_variance_(kDefaultWindGustVelocityVariance),
         wind_direction_mean_(kDefaultWindDirectionMean),
         wind_direction_variance_(kDefaultWindDirectionVariance),
         wind_gust_direction_mean_(kDefaultWindGustDirectionMean),
@@ -100,16 +100,16 @@ class GazeboWindPlugin : public ModelPlugin {
   std::string link_name_;
   std::string wind_pub_topic_;
 
-  double wind_force_mean_;
-  double wind_force_max_;
-  double wind_force_variance_;
-  double wind_gust_force_mean_;
-  double wind_gust_force_max_;
-  double wind_gust_force_variance_;
-  std::default_random_engine wind_force_generator_;
-  std::normal_distribution<double> wind_force_distribution_;
-  std::default_random_engine wind_gust_force_generator_;
-  std::normal_distribution<double> wind_gust_force_distribution_;
+  double wind_velocity_mean_;
+  double wind_velocity_max_;
+  double wind_velocity_variance_;
+  double wind_gust_velocity_mean_;
+  double wind_gust_velocity_max_;
+  double wind_gust_velocity_variance_;
+  std::default_random_engine wind_velocity_generator_;
+  std::normal_distribution<double> wind_velocity_distribution_;
+  std::default_random_engine wind_gust_velocity_generator_;
+  std::normal_distribution<double> wind_gust_velocity_distribution_;
 
   ignition::math::Vector3d xyz_offset_;
   ignition::math::Vector3d wind_direction_mean_;
